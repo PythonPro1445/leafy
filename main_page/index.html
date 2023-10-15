@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=IBM+Plex+Mono:wght@200&family=Monoton&family=Nunito:wght@300&display=swap" rel="stylesheet">
+    <link rel="icon" href="logo.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js library -->
+    <script src="main.js"></script>
+    <title>Leafy - Dashboard</title>
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2efef;
+            color: black;
+        }
+
+        /* CSS for the top navigation bar */
+        .navbar {
+            background-color: #ffffff;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border: 1px solid #ccc;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #000;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #1F8545;
+        }
+
+        /* CSS for the sidebar */
+        .sidebar {
+            height: 100%;
+            width: 220px;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            background-color: #ffffff;
+            color: #000;
+            padding: 20px;
+            font-family: 'Nunito', sans-serif;
+            border: 1px solid #ccc;
+        }
+
+        /* Style for sidebar links */
+        .sidebar a {
+            text-decoration: none;
+            color: black;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .attributedivs a:hover {
+            background-color: #26A65B;
+        }
+
+        .sidebar img {
+            height: 30px;
+            width: 30px;
+            margin-right: 10px;
+        }
+
+        h2 {
+            padding-left: 20px;
+        }
+
+        #welcomediv {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 40px;
+            padding-left: 50px;
+        }
+
+        .attributedivs {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding-top: 7px;
+            padding-left: 10px;
+        }
+
+        /* Style for the search bar */
+        .search-bar {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 5px;
+            height: 40px;
+            width: 1200px;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .search-bar input[type="text"] {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .search-bar button {
+            background-color: #ffffff;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding-top: 5px;
+            width: 50px;
+            cursor: pointer;
+            height: 40px;
+            font-family: 'Nunito', sans-serif;
+            border: 1px solid #ccc;
+        }
+
+        .search-bar button:hover {
+            background-color: #1F8545;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .datasets-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .dataset {
+            flex: 1;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 20px;
+            max-width: calc(50% - 40px);
+            width: 100%; /* Adjust as needed */
+            padding: 20px;
+        }
+
+        .chart-container {
+            height: 150px; /* Adjust the chart height as needed */
+        }
+
+        #weatherdiv {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 20px;
+            max-width: calc(50% - 40px);
+            width: 30%; /* Adjust as needed */
+            padding-left: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            height: 400px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <div class="navbar">
+        <a href="#"><img src="logo.png" alt="GreenNet Logo" style="width: 50px; height: 50px; padding-left: 20px;"></a>
+        <a href="#" style="font-size: 28px; color: #000000;"><strong style="color: #26A65B;">Leaf</strong>y</a>
+        <div class="search-bar">
+            <input type="text" placeholder="Search Everywhere...">
+            <button type="button"><img src="search.png" style="height: 25px; width: 25px;"></button>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" style="padding-top: 75px;">
+        <div class="attributedivs">
+            <a href="#">
+                <img src="weather_icon.png" alt="Weather Icon">
+                Weather
+            </a>            
+        </div>
+        <br>
+        <div class="attributedivs">
+            <a href="#">
+                <img src="environmenticon.png" alt="Environment Icon">
+                Environment
+            </a>
+        </div>
+        <br>
+        <div class="attributedivs">
+            <a href="#">
+                <img src="services.png" alt="Services Icon">
+                Services
+            </a>
+        </div>
+        <br>
+        <div class="attributedivs">
+            <a href="#">
+                <img src="contact.png" alt="Contact Icon">
+                Contact
+            </a>
+        </div>
+        <br>
+        <div class="attributedivs">
+            <a href="#">
+                <img src="aboutus.png" alt="About Us Icon">
+                About Us
+            </a>
+        </div>
+    </div>
+
+    <!-- Main content -->
+       <!-- Main content -->
+       <div style="padding-left: 60px;">
+       <div style="margin-left: 275px; margin-top: 100px; padding: 20px; padding-top: 1px; padding-left: 40px;" id="welcomediv">
+        <!-- Your main content goes here -->
+        <h1>Welcome to <strong style="color: #26A65B;">Leaf</strong>y</h1>
+        <p>This is where the slogan of the company is!</p>
+    </div>
+        
+    </div>
+    <div class="datasets-container" style="margin-left: 275px; margin-top: 20px; padding: 20px; padding-top: 1px;">
+        <div style="border-radius: 10px; margin: 20px; padding: 20px; text-align: center;">            
+            <div class="chart-container" style="display: flex; justify-content: center; align-items: center; height: 300px;">
+                <div id="weather-info" style="background-color: #fff; border: 1px solid #ccc; border-radius: 10px; padding: 20px; width: 300px; height: 290px;">
+                    <p style="font-size: 24px; color: #333;">Singapore</p>
+                    <p style="font-size: 38px; color: #1F8545;">25°C</p>
+                    <p style="font-size: 18px; color: #555;">Sunny</p>
+                    <p style="font-size: 16px; color: #555;">Humidity: 60%</p>
+                    <p style="font-size: 16px; color: #555;">Wind Speed: 10 km/h</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dataset">
+            <h2>DataSet 2</h2>
+            <div class="chart-container">
+                <canvas id="chart2"></canvas>
+            </div>
+        </div>
+        <div class="dataset">
+            <h2>DataSet 3</h2>
+            <div class="chart-container">
+                <canvas id="chart3"></canvas>
+            </div>
+        </div>
+        <div class="dataset">
+            <h2>DataSet 4</h2>
+            <div class="chart-container">
+                <canvas id="chart4"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Chart.js (Sample Data) -->
+    <script>
+
+        // Add similar code for chart2, chart3, and chart4 with different data as needed.
+
+        var ctx2 = document.getElementById('chart2').getContext('2d');
+        var chart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Label 1', 'Label 2', 'Label 3', 'Label 4', 'Label 5'],
+                datasets: [{
+                    label: 'Sample Data',
+                    data: [12, 19, 3, 5, 2],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Add similar code for chart2, chart3, and chart4 with different data as needed.
+
+        var ctx3 = document.getElementById('chart3').getContext('2d');
+        var chart3 = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: ['Label 1', 'Label 2', 'Label 3', 'Label 4', 'Label 5'],
+                datasets: [{
+                    label: 'Sample Data',
+                    data: [12, 19, 3, 5, 2],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Add similar code for chart2, chart3, and chart4 with different data as needed.
+
+        
+    </script>
+</body>
+</html>
